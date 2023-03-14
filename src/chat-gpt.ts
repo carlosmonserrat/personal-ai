@@ -1,3 +1,6 @@
+import {addChatData, chatId, updateChat} from "./firebase/queries";
+
+
 const chatMessages = [
     {
         role: "system",
@@ -5,10 +8,18 @@ const chatMessages = [
     }
 ]
 
-export const setInitialStateChat = (chatBox: HTMLDivElement) => {
+export const setInitialStateChat = (chatBox: HTMLDivElement, chatTitle: HTMLInputElement) => {
     chatMessages.forEach(text => {
         addAiAnswerInChat(chatBox, text)
     })
+    // TODO: add the previous chats in the left in order to continue converations, add the id also in this somehow
+    addChatData(
+        {
+            title: chatTitle.value,
+            messages: chatMessages,
+            timeStamp:Date.now()
+        }
+    )
 }
 
 export const setAskButton = (
@@ -122,6 +133,10 @@ const request = (
                     }
                     chatMessages.push(text)
                     addAiAnswerInChat(chat, text)
+                    updateChat(chatId, {
+                        title: "messages",
+                        messages: chatMessages
+                    })
                     getResponse(text.content)
                 });
         }

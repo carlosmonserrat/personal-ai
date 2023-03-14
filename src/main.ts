@@ -1,6 +1,6 @@
 import './style.css'
 import {setAskButton, setInitialStateChat} from "./chat-gpt";
-import {addData} from "./firebase-storage";
+import {getAllCollections} from "./firebase/queries";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
  <div class="chat">
@@ -18,7 +18,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </div>
 
     <div class="chat-container">
-        <div class="chat-header">Software and History</div>
+        <div class="chat-header"><input id="chatTitle" type="text" value="example title"></div>
         <div id="chat" class="chat-history">
         </div>
 
@@ -33,8 +33,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 const prompt:HTMLInputElement = document.querySelector<HTMLInputElement>('#prompt')!
 const askButton:HTMLButtonElement = document.querySelector<HTMLButtonElement>('#ask')!
 const chat: HTMLDivElement = document.querySelector<HTMLDivElement>('#chat')!
+const chatTitle: HTMLInputElement = document.querySelector<HTMLInputElement>('#chatTitle')!
 
-setInitialStateChat(chat)
+setInitialStateChat(chat,chatTitle)
 setAskButton(prompt,askButton,chat)
-addData()
+getAllCollections()
 
