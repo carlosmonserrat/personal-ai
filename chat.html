@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Improved Chat</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: sans-serif;
+            font-weight: 400;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat {
+            display: flex;
+            height: 100vh;
+        }
+
+        .conversation-history {
+            flex: 1;
+            margin-top: 90px;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #ffffff;
+        }
+
+        .conversation {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: lighter;
+            transition: 0.2s;
+            color: #a4a4a4;
+        }
+
+        .conversation.active {
+            font-style: italic;
+            padding: 20px 12px;
+            color: black;
+        }
+
+        .chat-container {
+            flex: 6;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-header {
+            padding: 10px;
+            background-color: #ffffff;
+            color: #b3b3b3;
+            font-size: 18px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .chat-history {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 32px 12px;
+            border-top: 1px solid #dadada;
+        }
+
+        .message.me {
+            font-weight: 600;
+        }
+
+        .message.ai {
+            background-color: #ffffff;
+            color: #4c4c4c;
+        }
+
+        .message.sys {
+            background-color: #000000;
+            color: #dbff00;
+        }
+
+        .chat-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-ai: 10px;
+
+        }
+
+        .chat-input button {
+            padding: 10px 24px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 0 20px;
+        }
+
+        .chat-input button:disabled{
+            background-color: #4c4c4c;
+        }
+
+        .more {
+            padding: 10px;
+            background-color: #f1f1f1;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            position: fixed;
+            top: 0;
+        }
+        #prompt{
+            width: 100%;
+            min-height: 100px;
+            padding: 16px;
+            border-radius: 5px;
+            border: 1px solid grey;
+        }
+    </style>
+</head>
+
+<body>
+<div class="chat">
+    <div class="more">
+        <input type="radio" id="model1" name="models" value="text-davinci-003">
+        <label for="model1">text-davinci-003</label><br>
+        <input type="radio" id="model2" name="models" value="gpt-3.5-turbo" checked>
+        <label for="model2">gpt-3.5-turbo</label><br>
+        <button class="new-conversation-button">+</button>
+    </div>
+
+    <div class="conversation-history">
+        <div class="conversation active">Under construction</div>
+        <div class="conversation">Under construction</div>
+        <div class="conversation">Under construction</div>
+        <div class="conversation">Under construction</div>
+        <div class="conversation">Under construction</div>
+        <div class="conversation">Under construction</div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">Software and History</div>
+        <div id="chat" class="chat-history">
+        </div>
+
+        <div class="chat-input">
+            <textarea  id="prompt" type="text" placeholder="Type a message..." > </textarea>
+            <button id="ask">Send</button>
+        </div>
+    </div>
+</div>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

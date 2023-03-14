@@ -1,0 +1,15 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "description": "personal ai",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^9.17.2",
+    "watchify": "^4.0.0"
+  }
+}
