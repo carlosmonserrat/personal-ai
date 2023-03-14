@@ -1,5 +1,6 @@
 import './style.css'
 import {setAskButton, setInitialStateChat} from "./chat-gpt";
+import {addData} from "./firebase-storage";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
  <div class="chat">
@@ -22,7 +23,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         </div>
 
         <div class="chat-input">
-            <textarea  id="prompt" type="text" placeholder="Type a message..." > </textarea>
+            <textarea  id="prompt"  placeholder="Type a message..." > </textarea>
             <button id="ask">Send</button>
         </div>
     </div>
@@ -35,4 +36,5 @@ const chat: HTMLDivElement = document.querySelector<HTMLDivElement>('#chat')!
 
 setInitialStateChat(chat)
 setAskButton(prompt,askButton,chat)
+addData()
 
