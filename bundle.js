@@ -1,1 +1,0 @@
-console.error("\nD:\\projects\\ai\\main.js:1\n import firebaseClient from './firebase-client'\r\n ^\nParseError: 'import' and 'export' may appear only with 'sourceType: module'");
