@@ -1,15 +1,14 @@
 import {addChatData, chatId, updateChat} from "./firebase/queries";
 
-
-const chatMessages = [
+export const chatMessages = [
     {
         role: "system",
         content: "You are an assistant"
     }
 ]
 
-export const setInitialStateChat = (chatBox: HTMLDivElement, chatTitle: HTMLInputElement) => {
-    chatMessages.forEach(text => {
+export const setChatBox = (chatBox: HTMLDivElement, chatTitle: HTMLInputElement) => {
+    chatMessages.forEach((text: { role: string; content: string; }) => {
         addAiAnswerInChat(chatBox, text)
     })
     // TODO: add the previous chats in the left in order to continue converations, add the id also in this somehow
@@ -17,7 +16,7 @@ export const setInitialStateChat = (chatBox: HTMLDivElement, chatTitle: HTMLInpu
         {
             title: chatTitle.value,
             messages: chatMessages,
-            timeStamp:Date.now()
+            timeStamp: Date.now()
         }
     )
 }
@@ -25,13 +24,16 @@ export const setInitialStateChat = (chatBox: HTMLDivElement, chatTitle: HTMLInpu
 export const setAskButton = (
     prompt: HTMLInputElement,
     askButton: HTMLButtonElement,
-    chatBox: HTMLDivElement
+    chatBox: HTMLDivElement,
+    chatTitle: HTMLInputElement,
+    commonEvents: any
 ) => {
     askButton.onclick = async () => {
         askButton.setAttribute("disabled", String(true))
         const selectedModel = (document.querySelector<HTMLInputElement>('input[name="models"]:checked'))?.value!;
         const requestModel = getRequestModel(prompt.value, selectedModel, chatBox)
-        await request(requestModel, askButton, chatBox)
+        await request(requestModel, askButton, chatBox, chatTitle)
+        await commonEvents.updateHistoryChats()
     }
 }
 
@@ -110,7 +112,8 @@ const getRequestModel = (
 const request = (
     requestModel: { model: any; url: any; message: any; },
     askButton: HTMLButtonElement,
-    chat: HTMLDivElement
+    chat: HTMLDivElement,
+    chatTitle: HTMLInputElement
 ) => {
     return new Promise(
         (getResponse) => {
@@ -133,12 +136,29 @@ const request = (
                     }
                     chatMessages.push(text)
                     addAiAnswerInChat(chat, text)
-                    updateChat(chatId, {
-                        title: "messages",
-                        messages: chatMessages
-                    })
+
+                    updateChat(
+                        chatId,
+                        {
+                            title: chatTitle.value,
+                            messages: chatMessages,
+                            timeStamp: Date.now()
+                        }
+                    )
+
                     getResponse(text.content)
                 });
         }
     )
+}
+
+export const setHistoryChats = (historyChatsDiv: HTMLDivElement, historyChats: any[]) => {
+    historyChats.forEach(historyChat => {
+        const historyChatLink = document.createElement("div")
+        historyChatLink.classList.add("conversation")
+        historyChatLink.innerText = historyChat.title
+        historyChatLink.setAttribute("article-id",historyChat.id)
+
+        historyChatsDiv.appendChild(historyChatLink)
+    })
 }

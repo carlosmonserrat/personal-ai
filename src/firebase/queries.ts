@@ -1,4 +1,4 @@
-import {addDoc, collection, doc, updateDoc,getDocs} from "firebase/firestore";
+import {addDoc, collection, doc, updateDoc, getDocs} from "firebase/firestore";
 import {db} from "./config";
 
 export let chatId: string
@@ -31,9 +31,9 @@ export async function getAllCollections() {
     const collectionsRef = await getDocs(collection(db, "chats"));
 
     collectionsRef.forEach((collection) => {
-        console.log(collection.data())
-        collections.push(collection);
+        const data = collection.data()
+        data.id = collection.id
+        collections.push(data);
     });
-    console.log(collections)
     return collections;
 }

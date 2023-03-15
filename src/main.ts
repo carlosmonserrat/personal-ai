@@ -1,5 +1,5 @@
 import './style.css'
-import {setAskButton, setInitialStateChat} from "./chat-gpt";
+import {setAskButton, setHistoryChats, setChatBox} from "./chat-gpt";
 import {getAllCollections} from "./firebase/queries";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
@@ -12,9 +12,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <button class="new-conversation-button">+</button>
     </div>
 
-    <div class="conversation-history">
-        <div class="conversation active">Under construction</div>
-        <div class="conversation">Under construction</div>
+    <div id="chatsHistory" class="conversation-history">
     </div>
 
     <div class="chat-container">
@@ -30,12 +28,23 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 </div>
 `
 
-const prompt:HTMLInputElement = document.querySelector<HTMLInputElement>('#prompt')!
-const askButton:HTMLButtonElement = document.querySelector<HTMLButtonElement>('#ask')!
+const prompt: HTMLInputElement = document.querySelector<HTMLInputElement>('#prompt')!
+const askButton: HTMLButtonElement = document.querySelector<HTMLButtonElement>('#ask')!
 const chat: HTMLDivElement = document.querySelector<HTMLDivElement>('#chat')!
 const chatTitle: HTMLInputElement = document.querySelector<HTMLInputElement>('#chatTitle')!
+const chatsHistoryDiv: HTMLDivElement = document.querySelector<HTMLDivElement>('#chatsHistory')!
 
-setInitialStateChat(chat,chatTitle)
-setAskButton(prompt,askButton,chat)
-getAllCollections()
+const commonEvents = {
+    updateHistoryChats: async () => {
+        chatsHistoryDiv.innerHTML = ""
+        setHistoryChats(chatsHistoryDiv, await getAllCollections())
+    },
+    updateChatBox: ()=>{
 
+    }
+}
+
+setChatBox(chat, chatTitle)
+setAskButton(prompt, askButton, chat, chatTitle, commonEvents)
+
+await commonEvents.updateHistoryChats()
