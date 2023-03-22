@@ -1,29 +1,60 @@
-import {addDoc, collection, doc, updateDoc, getDocs} from "firebase/firestore";
+import {addDoc, collection, deleteDoc, doc, getDocs, updateDoc} from "firebase/firestore";
 import {db} from "./config";
+import {chatMessages, currentTitle} from "../ElementsSetup";
+import {quickTitleRequest} from "../chat-gpt";
 
-export let chatId: string
-export const addChatData = async (chat: any) => {
+export let currentChatId: string
+export const setCurrentId = (newId: string) => {
+    currentChatId = newId
+}
+export const addChatData = async () => {
     const collectionRef = collection(db, 'chats');
-
     try {
-        const docRef = await addDoc(collectionRef, chat);
-        chatId = docRef.id
+        const docRef = await addDoc(
+            collectionRef, {
+                title: currentTitle.value,
+                messages: chatMessages,
+                timeStamp: Date.now()
+            });
+
+        currentChatId = docRef.id
         console.log('Document written with ID:', docRef.id);
     } catch (e) {
         console.error('Error adding document:', e);
     }
 };
 
-export const updateChat = async (docId: string, chat: any) => {
-    const docRef = doc(db, 'chats', docId);
-
+export const updateChat = async () => {
+    const docRef = doc(db, 'chats', currentChatId);
+    const titleValue = currentTitle.value == "" ? await quickTitleRequest() : currentTitle.value
+    console.log(titleValue)
+    currentTitle.value = titleValue
     try {
-        await updateDoc(docRef, chat);
+        await updateDoc(
+            docRef,
+            {
+                title: titleValue,
+                messages: chatMessages,
+                timeStamp: Date.now()
+            });
         console.log('Document updated successfully');
     } catch (e) {
         console.error('Error updating document:', e);
     }
 };
+
+export const deleteChat = async (id: string) => {
+    const docRef = doc(db, 'chats', id);
+
+    try {
+        await deleteDoc(
+            docRef
+        );
+        console.log('Document updated successfully');
+    } catch (e) {
+        console.error('Error updating document:', e);
+    }
+}
 
 // Retrieve all collections in the database
 export async function getAllCollections() {

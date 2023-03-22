@@ -1,46 +1,15 @@
-import {addChatData, chatId, updateChat} from "./firebase/queries";
+import {addChatData, updateChat} from "./firebase/queries";
+import {chatMessages, currentAskButton, currentChatBox, setChatBox, setChatMessages} from "./ElementsSetup";
 
-export const chatMessages = [
-    {
-        role: "system",
-        content: "You are an assistant"
-    }
-]
-
-export const setChatBox = (chatBox: HTMLDivElement, chatTitle: HTMLInputElement) => {
-    chatMessages.forEach((text: { role: string; content: string; }) => {
-        addAiAnswerInChat(chatBox, text)
-    })
-    // TODO: add the previous chats in the left in order to continue converations, add the id also in this somehow
-    addChatData(
-        {
-            title: chatTitle.value,
-            messages: chatMessages,
-            timeStamp: Date.now()
-        }
-    )
+export const startNewChat = () => {
+    currentChatBox.innerHTML = ""
+    setChatMessages([{role: "system", content: "You are an assistant"}])
+    setChatBox()
+    addChatData()
 }
 
-export const setAskButton = (
-    prompt: HTMLInputElement,
-    askButton: HTMLButtonElement,
-    chatBox: HTMLDivElement,
-    chatTitle: HTMLInputElement,
-    commonEvents: any
-) => {
-    askButton.onclick = async () => {
-        askButton.setAttribute("disabled", String(true))
-        const selectedModel = (document.querySelector<HTMLInputElement>('input[name="models"]:checked'))?.value!;
-        const requestModel = getRequestModel(prompt.value, selectedModel, chatBox)
-        await request(requestModel, askButton, chatBox, chatTitle)
-        await commonEvents.updateHistoryChats()
-    }
-}
 
-const addAiAnswerInChat = (
-    chat: HTMLDivElement,
-    text: { role: string; content: string; }
-) => {
+export const addMessageByRole = (text: { role: string; content: string; }) => {
     const message: HTMLDivElement = document.createElement('div')
     message.classList.add("message")
     switch (text.role) {
@@ -56,25 +25,18 @@ const addAiAnswerInChat = (
     }
 
     message.innerText = text.content
-    chat.appendChild(message)
+    currentChatBox.appendChild(message)
 }
 
-
-const getRequestModel = (
-    promptMessage: string,
-    id: string,
-    chat: HTMLDivElement
-) => {
-
+export const createJsonModel = (promptMessage: string, aiModelId: string) => {
     const text = {
         role: "user",
         content: promptMessage
     }
-
     chatMessages.push(text)
-    addAiAnswerInChat(chat, text)
+    addMessageByRole(text)
 
-    switch (id) {
+    switch (aiModelId) {
         case "gpt-3.5-turbo":
             return {
                 model: {
@@ -82,7 +44,7 @@ const getRequestModel = (
                     messages: chatMessages
                 },
                 url: "https://api.openai.com/v1/chat/completions",
-                message: (json: { choices: { message: { content: string } }[] }) => json.choices[0].message.content
+                messagePath: (json: { choices: { message: { content: string } }[] }) => json.choices[0].message.content
             }
 
         case "text-davinci-003":
@@ -98,67 +60,55 @@ const getRequestModel = (
                     presence_penalty: 0
                 },
                 url: "https://api.openai.com/v1/completions",
-                message: (json: { choices: { text: string }[] }) => json.choices[0].text
+                messagePath: (json: { choices: { text: string }[] }) => json.choices[0].text
             }
         default:
             return {
                 model: null,
                 url: null,
-                message: null
+                messagePath: null
             }
     }
 }
-//jo
-const request = (
-    requestModel: { model: any; url: any; message: any; },
-    askButton: HTMLButtonElement,
-    chat: HTMLDivElement,
-    chatTitle: HTMLInputElement
-) => {
-    return new Promise(
-        (getResponse) => {
-            fetch(
-                requestModel.url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${import.meta.env.VITE_OPEN_AI_KEY}`
-                    },
-                    body: JSON.stringify(requestModel.model),
-                }
-            )
-                .then(response => response.json())
-                .then(json => {
-                    askButton.removeAttribute("disabled")
-                    const text = {
-                        role: "assistant",
-                        content: requestModel.message(json)
-                    }
-                    chatMessages.push(text)
-                    addAiAnswerInChat(chat, text)
 
-                    updateChat(
-                        chatId,
-                        {
-                            title: chatTitle.value,
-                            messages: chatMessages,
-                            timeStamp: Date.now()
-                        }
-                    )
-
-                    getResponse(text.content)
-                });
+export const ask = async (url: string, data: string) => {
+    return await fetch(
+        url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${import.meta.env.VITE_OPEN_AI_KEY}`
+            },
+            body: data
         }
     )
 }
 
-export const setHistoryChats = (historyChatsDiv: HTMLDivElement, historyChats: any[]) => {
-    historyChats.forEach(historyChat => {
-        const historyChatLink = document.createElement("div")
-        historyChatLink.classList.add("conversation")
-        historyChatLink.innerText = historyChat.title
-        historyChatLink.setAttribute("article-id",historyChat.id)
+export const request = async (requestModel: { model: any; url: any; messagePath: any; }) => {
+    const requestData = await ask(requestModel.url, JSON.stringify(requestModel.model)).then(response => response.json())
+    currentAskButton.removeAttribute("disabled")
 
-        historyChatsDiv.appendChild(historyChatLink)
-    })
+    const text = {
+        role: "assistant",
+        content: requestModel.messagePath(requestData)
+    }
+
+    chatMessages.push(text)
+    addMessageByRole(text)
+    updateChat()
 }
+
+export const quickTitleRequest = async () => {
+    console.log(chatMessages)
+    const model = {
+        model: "gpt-3.5-turbo",
+        messages: [...chatMessages].push({
+            role: "user",
+            content: "I didn't came with any idea for the title of this chat, give me a really creative and funny title for this chat so far"
+        })
+    }
+
+    const requestData = await ask("https://api.openai.com/v1/chat/completions", JSON.stringify(model)).then(response => response.json())
+    return requestData.choices[0].message.content
+}
+
