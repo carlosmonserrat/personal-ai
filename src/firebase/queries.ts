@@ -1,6 +1,6 @@
 import {addDoc, collection, deleteDoc, doc, getDocs, updateDoc} from "firebase/firestore";
 import {db} from "./config";
-import {chatMessages, currentTitle} from "../ElementsSetup";
+import {chatMessages, currentTitle, updateHistoryChats} from "../ElementsSetup";
 import {quickTitleRequest} from "../chat-gpt";
 
 export let currentChatId: string
@@ -17,7 +17,7 @@ export const addChatData = async () => {
                 timeStamp: Date.now()
             });
 
-        currentChatId = docRef.id
+        setCurrentId(docRef.id)
         console.log('Document written with ID:', docRef.id);
     } catch (e) {
         console.error('Error adding document:', e);
@@ -27,13 +27,16 @@ export const addChatData = async () => {
 export const updateChat = async () => {
     const docRef = doc(db, 'chats', currentChatId);
     const titleValue = currentTitle.value == "" ? await quickTitleRequest() : currentTitle.value
-    console.log(titleValue)
-    currentTitle.value = titleValue
+    const cleanTitleValue = (await titleValue).replace(/"/g, "")
+
+    updateHistoryChats()
+
+    currentTitle.value = cleanTitleValue
     try {
         await updateDoc(
             docRef,
             {
-                title: titleValue,
+                title: cleanTitleValue,
                 messages: chatMessages,
                 timeStamp: Date.now()
             });
@@ -50,7 +53,7 @@ export const deleteChat = async (id: string) => {
         await deleteDoc(
             docRef
         );
-        console.log('Document updated successfully');
+        console.log('Document deleted successfully');
     } catch (e) {
         console.error('Error updating document:', e);
     }
@@ -60,6 +63,7 @@ export const deleteChat = async (id: string) => {
 export async function getAllCollections() {
     const collections: any[] = [];
     const collectionsRef = await getDocs(collection(db, "chats"));
+
 
     collectionsRef.forEach((collection) => {
         const data = collection.data()

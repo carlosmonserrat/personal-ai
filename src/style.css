@@ -25,16 +25,24 @@ body {
 
 .chat {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
+    margin-bottom: 150px;
 }
 
-.conversation-history {
-    flex: 1;
+.chat-history-container {
+    position: relative;
     margin-top: 90px;
     padding: 10px;
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: #ffffff;
+    width: 300px;
 }
+
+.chat-history {
+    width: 100%;
+}
+
 
 .conversation {
     margin-bottom: 10px;
@@ -96,17 +104,19 @@ body {
 }
 
 .chat-input {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    width: 100%;
+    text-align: right;
 }
 
-.chat-input input[type="text"] {
-    flex: 1;
-    padding: 10px;
+.chat-input #prompt {
+    width: 80%;
+    min-height: 100px;
+    padding: 16px;
     border-radius: 5px;
-    margin-ai: 10px;
+    border: 1px solid grey;
 }
 
 .chat-input button {
@@ -136,10 +146,33 @@ body {
     top: 0;
 }
 
-#prompt {
-    width: 100%;
-    min-height: 100px;
-    padding: 16px;
-    border-radius: 5px;
-    border: 1px solid grey;
+
+.chat-title {
+    width: 90%;
+}
+
+.single-chat-link-container {
+
+    white-space: nowrap;
+}
+
+.single-chat-link-container > div, .single-chat-link-container > button {
+    display: inline-block;
+}
+
+.resize-border {
+    position: absolute;
+    top: 0;
+    right: -1px; /* Position the border to the right */
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    border-right: dotted 2px #00b23d;
+
+    /* Add other border styles here*/
+}
+
+.chat-box {
+    min-width: 500px;
+    min-height: 80vh;
 }

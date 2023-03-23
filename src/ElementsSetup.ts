@@ -8,14 +8,15 @@ export let currentAskButton: HTMLInputElement
 export let currentPrompt: HTMLInputElement
 export let currentNewButton: HTMLInputElement
 export let currentSaveButton: HTMLInputElement
+export let currentResizeBorder: HTMLInputElement
+export let currentChatHistoryContainer: HTMLInputElement
 export let chatMessages: any
 
-export const setChatMessages = (newMessages: any) => {
-    chatMessages = newMessages
-    setAskButtonState()
-}
+let isResizing = false;
+let startPositionX = 0;
+let startWidth = 0;
 
-export const setAllCurrentElements = (elements: any) => {
+export const setAllCurrentElements = async (elements: any) => {
     currentChatBox = elements.get("chat")
     currentTitle = elements.get("chatTitle")
     currentAskButton = elements.get("ask")
@@ -23,27 +24,73 @@ export const setAllCurrentElements = (elements: any) => {
     currentNewButton = elements.get("new")
     currentSaveButton = elements.get("save")
     currentChatHistory = elements.get("chatHistory")
+    currentResizeBorder = elements.get("resizeBorder")
+    currentChatHistoryContainer = elements.get("chatHistoryContainer")
 
     setAskButton()
     setNewChatButton()
     setSaveButton()
-    updateHistoryChats()
+    await updateHistoryChats()
+    setHistoryResizeEventListeners()
 }
 
-const updateHistoryChats = async () => {
+const startResize = (event: { clientX: number; }) => {
+    console.log("RESIZE")
+    isResizing = true;
+    startPositionX = event.clientX;
+    const {getComputedStyle} = document.defaultView!;
+    startWidth = parseInt(getComputedStyle(currentChatHistoryContainer).width, 10);
+}
+
+const resize = (event: { clientX: number; }) => {
+    if (isResizing) {
+        console.log("RESIZING")
+        const delta = event.clientX - startPositionX;
+        currentChatHistoryContainer.style.width = `${startWidth + delta}px`;
+    }
+}
+
+export const setChatMessages = (newMessages: any) => {
+    chatMessages = newMessages
+    setAskButtonState()
+}
+
+const stopResize = () => {
+    isResizing = false;
+}
+
+// @ts-ignore
+const setHistoryResizeEventListeners = () => {
+    currentResizeBorder.addEventListener("mousedown", startResize);
+    document.addEventListener("mousemove", resize);
+    document.addEventListener("mouseup", stopResize);
+}
+
+export const updateHistoryChats = async () => {
     const history = await getAllCollections()
     currentChatHistory.innerHTML = ""
-     await setHistoryChats(history)
+    await setHistoryChats(history)
 }
 
 const setHistoryChats = async (historyChats: any) => {
     for (const historyChat of historyChats) {
+
+        const historyChatSingleContainer = document.createElement("div")
+        historyChatSingleContainer.classList.add("single-chat-link-container")
+
         const historyChatLink = document.createElement("div")
         historyChatLink.classList.add("conversation")
         historyChatLink.innerText = historyChat.title
         historyChatLink.setAttribute("article-id", historyChat.id)
 
-        await deleteChat(historyChat.id)
+        const deleteButton = document.createElement("button")
+        deleteButton.innerText = "-"
+        deleteButton.classList.add("delete-button")
+
+        deleteButton.onclick = async () => {
+            await deleteChat(historyChat.id)
+            await updateHistoryChats()
+        }
 
         historyChatLink.onclick = () => {
             setChatMessages(historyChat.messages)
@@ -53,7 +100,10 @@ const setHistoryChats = async (historyChats: any) => {
             setChatBox()
         }
 
-        currentChatHistory.appendChild(historyChatLink)
+        historyChatSingleContainer.appendChild(deleteButton)
+        historyChatSingleContainer.appendChild(historyChatLink)
+
+        currentChatHistory.appendChild(historyChatSingleContainer)
     }
 }
 

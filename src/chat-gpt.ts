@@ -8,7 +8,6 @@ export const startNewChat = () => {
     addChatData()
 }
 
-
 export const addMessageByRole = (text: { role: string; content: string; }) => {
     const message: HTMLDivElement = document.createElement('div')
     message.classList.add("message")
@@ -38,17 +37,19 @@ export const createJsonModel = (promptMessage: string, aiModelId: string) => {
 
     switch (aiModelId) {
         case "gpt-3.5-turbo":
+            //the context got a limit of around 4000 tokens for gpt turbo in the context
+            const limitedMessages = chatMessages.slice(-4);
+
             return {
                 model: {
                     model: "gpt-3.5-turbo",
-                    messages: chatMessages
+                    messages: limitedMessages
                 },
                 url: "https://api.openai.com/v1/chat/completions",
                 messagePath: (json: { choices: { message: { content: string } }[] }) => json.choices[0].message.content
             }
 
         case "text-davinci-003":
-            console.log(text.content)
             return {
                 model: {
                     model: "text-davinci-003",
@@ -99,13 +100,15 @@ export const request = async (requestModel: { model: any; url: any; messagePath:
 }
 
 export const quickTitleRequest = async () => {
-    console.log(chatMessages)
+    const newChatMessages = [...chatMessages]
+    newChatMessages.push({
+        role: "user",
+        content: "provide a title for this"
+    })
+
     const model = {
         model: "gpt-3.5-turbo",
-        messages: [...chatMessages].push({
-            role: "user",
-            content: "I didn't came with any idea for the title of this chat, give me a really creative and funny title for this chat so far"
-        })
+        messages: newChatMessages
     }
 
     const requestData = await ask("https://api.openai.com/v1/chat/completions", JSON.stringify(model)).then(response => response.json())
