@@ -37,7 +37,7 @@ const setElements = (ids: any) => {
     })
 }
 
-setElements(["prompt", "ask", "chat", "chatTitle", "chatHistory", "save", "new","davinci","gpt3","resizeBorder","chatHistoryContainer"])
+setElements(["prompt", "ask", "chat", "chatTitle", "chatHistory", "save", "new", "davinci", "gpt3", "resizeBorder", "chatHistoryContainer"])
 
 setAllCurrentElements(elements)
 

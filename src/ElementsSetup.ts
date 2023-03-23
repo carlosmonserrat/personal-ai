@@ -68,6 +68,7 @@ const setHistoryResizeEventListeners = () => {
 
 export const updateHistoryChats = async () => {
     const history = await getAllCollections()
+    history.sort((a, b) => b.timeStamp - a.timeStamp)
     currentChatHistory.innerHTML = ""
     await setHistoryChats(history)
 }
