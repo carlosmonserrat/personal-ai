@@ -38,7 +38,7 @@ export const createJsonModel = (promptMessage: string, aiModelId: string) => {
     switch (aiModelId) {
         case "gpt-3.5-turbo":
             //the context got a limit of around 4000 tokens for gpt turbo in the context
-            const limitedMessages = chatMessages.slice(-4);
+            const limitedMessages = chatMessages.slice(-6);
 
             return {
                 model: {
