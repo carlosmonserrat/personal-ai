@@ -28,6 +28,10 @@ export const addMessageByRole = (text: { role: string; content: string; }) => {
 }
 
 export const createJsonModel = (promptMessage: string, aiModelId: string) => {
+    interface ModelConfigs {
+        [key: string]: () => any;
+    }
+
     const text = {
         role: "user",
         content: promptMessage
@@ -35,41 +39,41 @@ export const createJsonModel = (promptMessage: string, aiModelId: string) => {
     chatMessages.push(text)
     addMessageByRole(text)
 
-    switch (aiModelId) {
-        case "gpt-3.5-turbo":
-            //the context got a limit of around 4000 tokens for gpt turbo in the context
+    const modelConfigs: ModelConfigs = {
+        "gpt-4": () => {
+            return getModelConfig("gpt-4", chatMessages);
+        },
+        "gpt-3.5-turbo": () => {
             const limitedMessages = chatMessages.slice(-6);
+            return getModelConfig("gpt-3.5-turbo", limitedMessages);
+        },
+        "text-davinci-003": () => {
+            return getModelConfig("text-davinci-003", null, text.content, 4000, 0.5, 1, 0, 0);
+        }
+    };
 
-            return {
-                model: {
-                    model: "gpt-3.5-turbo",
-                    messages: limitedMessages
-                },
-                url: "https://api.openai.com/v1/chat/completions",
-                messagePath: (json: { choices: { message: { content: string } }[] }) => json.choices[0].message.content
-            }
-
-        case "text-davinci-003":
-            return {
-                model: {
-                    model: "text-davinci-003",
-                    prompt: text.content,
-                    max_tokens: 4000,
-                    temperature: 0.5,
-                    top_p: 1,
-                    frequency_penalty: 0,
-                    presence_penalty: 0
-                },
-                url: "https://api.openai.com/v1/completions",
-                messagePath: (json: { choices: { text: string }[] }) => json.choices[0].text
-            }
-        default:
-            return {
-                model: null,
-                url: null,
-                messagePath: null
-            }
+    if (aiModelId in modelConfigs) {
+        return modelConfigs[aiModelId]();
+    } else {
+        return reportError("Only legal OpenAI models are allowed https://platform.openai.com/docs/models");
     }
+}
+
+const getModelConfig = (model: any, messages: any, prompt?: any, maxTokens?: any, temperature?: any, topP?: any, frequencyPenalty?: any, presencePenalty?: any) => {
+    return {
+        model: {
+            model,
+            messages,
+            prompt,
+            max_tokens: maxTokens,
+            temperature,
+            top_p: topP,
+            frequency_penalty: frequencyPenalty,
+            presence_penalty: presencePenalty
+        },
+        url: model.startsWith("gpt") ? "https://api.openai.com/v1/chat/completions" : "https://api.openai.com/v1/completions",
+        messagePath: (json: { choices: { message?: { content: string }, text?: string }[] }) => json.choices[0].message?.content || json.choices[0].text
+    };
 }
 
 export const ask = async (url: string, data: string) => {

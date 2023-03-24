@@ -9,6 +9,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <label for="model1">text-davinci-003</label><br>
       <input type="radio" id="gpt35" name="models" value="gpt-3.5-turbo" checked>
       <label for="model2">gpt-3.5-turbo</label><br>
+      <input type="radio" id="gpt4" name="models" value="gpt-4"  >
+      <label for="model2">gpt-4</label><br>
    </div>
    <div id="chatHistoryContainer" class="chat-history-container">
       <div id="resizeBorder" class="resize-border"></div>
