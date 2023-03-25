@@ -8,21 +8,26 @@
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+          integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <style>
         .menu {
             height: 100vh; /* set menu height to viewport height */
             overflow-y: auto;
             scrollbar-color: #888 transparent; /* set scrollbar color and track color */
         }
+
         /* customize scrollbar */
         .menu::-webkit-scrollbar {
             width: 8px;
         }
+
         .menu::-webkit-scrollbar-thumb {
             background-color: #888;
             border-radius: 4px;
         }
+
         .menu::-webkit-scrollbar-track {
             background-color: transparent;
         }
@@ -60,15 +65,15 @@
     <!-- Main content -->
     <div class="flex-1 flex flex-col">
         <!-- Header -->
-        <header class="bg-white p-4 border-b border-gray-200 flex justify-between items-center">
-            <div class="text-xl">
-<!--                <img src="your-logo.png" alt="Logo" class="h-8 w-auto">-->
-            </div>
+        <header class="bg-white p-4 border-b border-gray-200">
             <!-- User input -->
-            <div class="relative ml-4 flex items-center">
-                <input type="text" placeholder="Type your message here"
-                       class="py-2 px-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent flex-1 mr-2">
-                <button type="button" class="bg-gray-500 text-gray-100 rounded-full w-8 h-8 flex items-center justify-center"
+            <div class="relative">
+                <label>
+<textarea placeholder="Type your message here"
+          class="py-2 px-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full"></textarea>
+                </label>
+                <button type="button"
+                        class="bg-gray-500 text-gray-100 rounded-full w-8 h-8 absolute right-2 top-2 flex items-center justify-center"
                         aria-label="Send">
                     <i class="fas fa-paper-plane text-xs"></i>
                 </button>
