@@ -1,0 +1,39 @@
+header {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 256px);
+}
+
+.menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-color: #888 transparent;
+    width: 64px;
+}
+
+.menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.menu::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.menu::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+main {
+    position: absolute;
+    width: calc(100% - 256px);
+    top: 90px;
+    right: 0;
+}
