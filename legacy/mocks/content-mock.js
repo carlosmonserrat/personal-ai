@@ -70,7 +70,7 @@ for (let i = 0; i < topics.length; i++) {
         "rounded",
         "transition",
         "duration-200",
-        "hover:bg-gray-100"
+        "hover:bg-zinc-600"
     );
     linkElement.href = "#";
     linkElement.textContent = topics[i];

@@ -1,0 +1,139 @@
+* {
+    font-size: small;
+    font-weight: normal;
+}
+
+header {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 256px);
+}
+
+.menu {
+    position: fixed;
+    top: 46px;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-color: #888 transparent;
+    opacity: 0.8;
+}
+
+.menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.menu::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.menu::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.chat {
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+}
+
+.chat-content {
+    margin: 16px auto;
+    max-width: 500px;
+    padding: 12px 0;
+    position: relative;
+}
+
+.chat-logo {
+    position: absolute;
+    left: -52px;
+    opacity: 0.2;
+}
+
+.chat-user {
+    color: lightgray;
+    border-bottom: 2px solid #5f5f5f;
+}
+
+.chat-ai {
+    color: white;
+}
+
+.fixed {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.radio-button {
+    display: inline-block;
+    position: relative;
+    padding-left: 2.5rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    user-select: none;
+}
+
+.radio-button input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: #383838;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Increase the size of the bullet point when the radio button is checked */
+.radio-button input:checked ~ .checkmark {
+    transform: scale(1.2);
+}
+
+/* Change the color of the bullet point */
+.radio-button input:checked ~ .checkmark:after {
+    display: block;
+    background-color: #39FF14;
+}
+
+.radio-button .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    border-radius: 50%;
+    background-color: #373737;
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+/* Styles for the label */
+.radio-button label {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+/* Move radio buttons to the right */
+.radio-button:last-of-type {
+    margin-right: 0;
+}
+
+.radio-button:not(:last-of-type) {
+    margin-right: 1rem;
+}

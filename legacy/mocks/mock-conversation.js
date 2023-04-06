@@ -82,9 +82,6 @@ function generateConversation() {
         conversation += '<span class="text-white">' + answer + '</span>';
         conversation += '</span></div>';
     }
-
-    // Add the conversation to the main element
-    mainElement.innerHTML = conversation;
 }
 
 // Generate the conversation on page load

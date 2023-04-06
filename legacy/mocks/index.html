@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="tailwind.js"></script>
+    <script type="module" src="https://cdn.skypack.dev/puppeteer@10.4.0?dts"></script>
+
+
+    <script>
+
+        (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            const url = 'https://www.paginasiete.bo';
+
+            await page.goto(url);
+
+            const postLinks = await page.$$eval('.headline a', links => links.map(link => link.href));
+
+            for (let i = 0; i < postLinks.length; i++) {
+                await page.goto(`${url}${postLinks[i]}`);
+
+                const title = await page.$eval('.headline h1', title => title.innerText.trim());
+                const content = await page.$eval('.texto', content => content.innerText.trim());
+
+                console.log("****");
+                console.log("TITULO: ", title);
+                console.log("****");
+                console.log("CONTENT:", content);
+                console.log("****");
+            }
+
+            await browser.close();
+        })();
+    </script>
+
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+          integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-zinc-900">
+<div class="min-h-screen flex">
+    <div class="fixed bg-zinc-800 w-full p-4 justify-between z-1 text-white ">
+        <h1 class="text-white px-4 "><img src="img/logo.svg" alt="krlz" width="30px" style="border-radius: 60px"></h1>
+        <div class="px-4">
+            <label class="radio-button">
+                <input type="radio" name="model" value="text-davinci-003">
+                <span class="checkmark"></span>
+                Text Davinci 003
+            </label>
+            <label class="radio-button">
+                <input type="radio" name="model" value="gpt-3.5-turbo" checked>
+                <span class="checkmark"></span>
+                GPT-3.5 Turbo
+            </label>
+            <label class="radio-button">
+                <input type="radio" name="model" value="gpt-4">
+                <span class="checkmark"></span>
+                GPT-4
+            </label>
+        </div>
+    </div>
+    <div class="mt-16">
+        <!-- Main content -->
+        <div class="flex-1 ml-16 flex flex-col">
+            <!-- Header -->
+            <header class="bg-zinc-800 p-4 w-10/12">
+                <!-- User input -->
+                <div class="relative">
+                    <label>
+                    <textarea placeholder="Type your message here"
+                    class="bg-zinc-700 text-white p-4 px-3 rounded-lg border border-gray-300 outline-none border-transparent w-full"></textarea>
+                    </label>
+                    <button type="button"
+                            class="text-zinc-100 rounded-full w-8 h-8 absolute right-2 top-2 flex items-center justify-center transition hover:text-zinc-600"
+                            aria-label="Send">
+                        <i class="fas fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+            </header>
+            <!-- Content -->
+
+            <div class="flex-1 p-4 chat">
+                <div class="chat-content chat-ai">
+                    <div class="chat-logo">
+                        <img src="img/admin.svg" alt="">
+                    </div>
+                    <p> I am an Asisstant</p>
+                </div>
+                <div class="chat-content chat-user">
+                    <div class="chat-logo">
+                        <img src="img/user.svg" alt="">
+                    </div>
+
+                    <p> I can help you find a hotel that meets your needs, just let me know what you're
+                        looking for I can help you find a hotel that meets your needs, just let me know what you're
+                        looking
+                        for.
+                        I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+                </div>
+                <div class="chat-content chat-ai">
+                    <div class="chat-logo">
+                        <img src="img/assistant.svg" alt="">
+                    </div>
+
+                    <p> I can help you find a hotel that meets your needs, just let me know what you're
+                        looking for I can help you find a hotel that meets your needs, just let me know what you're
+                        looking
+                        for.
+                        I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- Side menu -->
+        <div class="bg-zinc-800 px-4  w-4/12 menu z-100">
+            <nav class="content"></nav>
+        </div>
+    </div>
+</div>
+<script src="content-mock.js"></script>
+<script src="mock-conversation.js"></script>
+</body>
+</html>

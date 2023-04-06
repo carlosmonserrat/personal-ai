@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="module">
+        import { chromium } from 'https://cdn.jsdelivr.net/npm/playwright@1.18.1';
+
+        (async () => {
+            const browser = await chromium.launch();
+            const page = await browser.newPage();
+            const url = 'https://www.paginasiete.bo';
+
+            await page.goto(url);
+
+            const postLinks = await page.$$eval('.headline a', links => links.map(link => link.href));
+
+            for (let i = 0; i < postLinks.length; i++) {
+                await page.goto(`${url}${postLinks[i]}`);
+
+                const title = await page.$eval('.headline h1', title => title.innerText.trim());
+                const content = await page.$eval('.texto', content => content.innerText.trim());
+
+                console.log("****");
+                console.log("TITULO: ", title);
+                console.log("****");
+                console.log("CONTENT:", content);
+                console.log("****");
+            }
+
+            await browser.close();
+        })();
+    </script>
+
+
+</head>
+<body>
+
+</body>
+</html>

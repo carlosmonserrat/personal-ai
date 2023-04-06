@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            color: #dadada;
+            font-family: sans-serif;
+            font-weight: lighter;
+        }
+
+        a {
+            transition: 300ms;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        body {
+            background-color: #292d37;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: auto 1fr;
+            max-height: 100vh;
+        }
+
+        .top-nav {
+            text-align: right;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        .top-nav-content {
+            background-color: #14191e;
+            color: #fff;
+            padding: 16px;
+        }
+
+        .left-menu {
+            background-color: #181820;
+            font-size: small;
+            min-height: 100vh;
+        }
+
+        .menu-content {
+            padding: 72px 32px;
+        }
+
+        li {
+            padding: 4px 0;
+        }
+
+        .feed {
+            margin: 16px 0;
+            border-top: 1px solid #626262;
+            max-height: 700px;
+            overflow: hidden;
+            overflow-y: auto;
+            scrollbar-color: rgba(136, 136, 136, 0.8) transparent;
+        }
+
+        .feed::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .feed::-webkit-scrollbar-thumb {
+            background-color: rgba(136, 136, 136, 0.53);
+            border-radius: 4px;
+        }
+
+        .feed::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        .feed-title {
+            margin: 12px 0;
+            cursor: pointer;
+        }
+
+        h3 {
+            margin: 0 0 16px 0;
+        }
+
+        .content {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            overflow-y: auto;
+            scrollbar-color: #888 transparent;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        .conversations {
+            overflow: hidden;
+            overflow-y: auto;
+            padding: 72px 32px;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .conversation {
+            margin: 0 0 32px 0;
+            padding: 16px 0 0 0;
+            border-top: 1px solid grey;
+        }
+
+        .input-prompt-area {
+            position: sticky;
+            bottom: 0;
+            scrollbar-color: #888 transparent;
+            width: 100%;
+        }
+
+        .input-prompt-area ::-webkit-scrollbar {
+            cursor: pointer;
+            width: 8px;
+        }
+
+        .input-prompt-area ::-webkit-scrollbar-thumb {
+            cursor: pointer;
+            background-color: #888;
+            border-radius: 4px;
+        }
+
+        .input-prompt-area ::-webkit-scrollbar-track {
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        .input-prompt-content {
+            position: relative;
+            width: 90%;
+            margin: 0 auto;
+            border-radius: 20px;
+        }
+
+        .input-prompt {
+            width: 100%;
+            background-color: #0a0a12;
+            border: none;
+            color: #ffffff;
+            padding: 32px;
+            box-sizing: border-box;
+            resize: none;
+            border-radius: 20px;
+            transition: 300ms;
+        }
+
+        .input-prompt:focus {
+            border: none;
+            outline: none;
+        }
+
+        .input-prompt:active {
+            border: none;
+        }
+
+        .send {
+            background-color: transparent;
+            border: none;
+            color: #61ff78;
+            position: absolute;
+            right: 12px;
+            bottom: 16px;
+            font-size: 16px;
+            transition: 300ms;
+            cursor: pointer;
+        }
+
+        .send:hover {
+            opacity: 0.5;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <nav class="top-nav">
+        <div class="top-nav-content">
+            <label class="radio-button">
+                <input type="radio" name="model" value="text-davinci-003">
+                <span class="checkmark"></span>
+                Text Davinci 003
+            </label>
+            <label class="radio-button">
+                <input type="radio" name="model" value="gpt-3.5-turbo" checked>
+                <span class="checkmark"></span>
+                GPT-3.5 Turbo
+            </label>
+            <label class="radio-button">
+                <input type="radio" name="model" value="gpt-4">
+                <span class="checkmark"></span>
+                GPT-4
+            </label>
+        </div>
+    </nav>
+    <aside class="left-menu ">
+        <div class="menu-content mt-72">
+            <h3>📰 News</h3>
+            <ul>
+                <li><a href="#">Bolivia</a></li>
+                <li><a href="#">Chile</a></li>
+                <li><a href="#">Russia</a></li>
+            </ul>
+            <div class="feed">
+                <ul>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">The world of travel and exploration</a>
+                    </li>
+                    <li class="feed-title">
+                        <a href="#">How to master a new language in record time</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </aside>
+    <main class="content">
+        <div class="conversations">
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+                looking for I can help you find a hotel that meets your needs, just let me know what you're
+                looking
+                for.
+                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+        </div>
+        <div class="input-prompt-area">
+            <div class="input-prompt-content">
+                <label>
+                    <textarea class="input-prompt" name="" id="" cols="30" rows="1"></textarea>
+                </label>
+                <button class="send">➤</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+
+    const textarea = document.querySelector('.input-prompt');
+    const maxRows = 4;
+
+    textarea.oninput = () => {
+        const characters = textarea.value.length
+        const rows = textarea.rows
+
+        if (characters > 100) {
+            textarea.rows = 4
+        }else{
+            textarea.rows = 1
+        }
+
+        if (characters > 200) {
+            textarea.rows = 6
+        }
+
+    }
+</script>
+</body>
+</html>
