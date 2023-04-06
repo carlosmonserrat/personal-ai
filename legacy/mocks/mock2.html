@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
         * {
             margin: 0;
             padding: 0;
@@ -98,7 +98,6 @@
 
         .content {
             position: relative;
-            height: 100vh;
             overflow: hidden;
             overflow-y: auto;
             scrollbar-color: #888 transparent;
@@ -123,6 +122,7 @@
             padding: 72px 32px;
             max-width: 650px;
             margin: 0 auto;
+            height: 100vh;
         }
 
         .conversation {
@@ -198,211 +198,71 @@
             opacity: 0.5;
         }
 
-    </style>
+	</style>
 </head>
 <body>
 
 <div class="dashboard">
-    <nav class="top-nav">
-        <div class="top-nav-content">
-            <label class="radio-button">
-                <input type="radio" name="model" value="text-davinci-003">
-                <span class="checkmark"></span>
-                Text Davinci 003
-            </label>
-            <label class="radio-button">
-                <input type="radio" name="model" value="gpt-3.5-turbo" checked>
-                <span class="checkmark"></span>
-                GPT-3.5 Turbo
-            </label>
-            <label class="radio-button">
-                <input type="radio" name="model" value="gpt-4">
-                <span class="checkmark"></span>
-                GPT-4
-            </label>
-        </div>
-    </nav>
-    <aside class="left-menu ">
-        <div class="menu-content mt-72">
-            <h3>📰 News</h3>
-            <ul>
-                <li><a href="#">Bolivia</a></li>
-                <li><a href="#">Chile</a></li>
-                <li><a href="#">Russia</a></li>
-            </ul>
-            <div class="feed">
-                <ul>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">The world of travel and exploration</a>
-                    </li>
-                    <li class="feed-title">
-                        <a href="#">How to master a new language in record time</a>
-                    </li>
-                </ul>
+	<nav class="top-nav">
+		<div class="top-nav-content">
+			<label class="radio-button">
+				<input type="radio" name="model" value="text-davinci-003">
+				<span class="checkmark"></span>
+				Text Davinci 003
+			</label>
+			<label class="radio-button">
+				<input type="radio" name="model" value="gpt-3.5-turbo" checked>
+				<span class="checkmark"></span>
+				GPT-3.5 Turbo
+			</label>
+			<label class="radio-button">
+				<input type="radio" name="model" value="gpt-4">
+				<span class="checkmark"></span>
+				GPT-4
+			</label>
+		</div>
+	</nav>
+	<aside class="left-menu ">
+		<div class="menu-content mt-72">
+			<h3>📰 News</h3>
+			<ul>
+				<li><a href="#">Bolivia</a></li>
+				<li><a href="#">Chile</a></li>
+				<li><a href="#">Russia</a></li>
+			</ul>
+			<div class="feed">
+				<ul>
+					<li class="feed-title">
+						<a href="#">The world of travel and exploration</a>
+					</li>
 
-            </div>
-        </div>
-    </aside>
-    <main class="content">
-        <div class="conversations">
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+				</ul>
 
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-            <p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
-                looking for I can help you find a hotel that meets your needs, just let me know what you're
-                looking
-                for.
-                I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
-        </div>
-        <div class="input-prompt-area">
-            <div class="input-prompt-content">
-                <label>
-                    <textarea class="input-prompt" name="" id="" cols="30" rows="1"></textarea>
-                </label>
-                <button class="send">➤</button>
-            </div>
-        </div>
-    </main>
+			</div>
+		</div>
+	</aside>
+	<main class="content">
+		<div class="conversations">
+			<p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+				looking for I can help you find a hotel that meets your needs, just let me know what you're
+				looking
+				for.
+				I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+			<p class="conversation"> I can help you find a hotel that meets your needs, just let me know what you're
+				looking for I can help you find a hotel that meets your needs, just let me know what you're
+				looking
+				for.
+				I can help you find a hotel that meets your needs, just let me know what you're looking for</p>
+		</div>
+		<div class="input-prompt-area">
+			<div class="input-prompt-content">
+				<label>
+					<textarea class="input-prompt" name="" id="" cols="30" rows="1"></textarea>
+				</label>
+				<button class="send">➤</button>
+			</div>
+		</div>
+	</main>
 </div>
 
 <script>
@@ -416,7 +276,7 @@
 
         if (characters > 100) {
             textarea.rows = 4
-        }else{
+        } else {
             textarea.rows = 1
         }
 
